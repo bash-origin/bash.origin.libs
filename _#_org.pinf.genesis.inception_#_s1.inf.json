@@ -1,0 +1,52 @@
+#!/usr/bin/env inf
+{
+    "#": [
+        "org.pinf.inf/"
+    ],
+
+    "org.pinf.genesis.inception/bash.origin.lib ##": "it.pinf.inf/plugins/node-aspect-utils.",
+    "org.pinf.genesis.inception/bash.origin.lib #": "./",
+
+    "org.pinf.genesis.inception/bash.origin.lib # .cache": "~/.bash.origin.lib",
+
+    "org.pinf.genesis.inception/bash.origin.lib # .[]pack minimal": (inf (opts) >>>
+        {
+            "#": "io.nodepack.inf/",
+        
+            "org.pinf.genesis.inception/io.nodepack.inf/community.npm # .cache": "%%%opts.cache%%%",
+            "org.pinf.genesis.inception/io.nodepack.inf/community.npm # .[]pack": {
+                "name": "bash.origin.lib.minimal",
+                "descriptor": "./packs/minimal/package.json",
+                "aspect": "dependencies",
+                "basePath": "%%%opts.basePath%%%"
+            },
+
+            "org.pinf.genesis.inception # toolchain": "../",
+            "org.pinf.genesis.inception # origin": "bash.origin.lib",
+            "org.pinf.genesis.inception # run()": "contract",
+            "org.pinf.genesis.inception # run()": "expand"
+        }
+    <<<),
+
+    "org.pinf.genesis.inception/bash.origin.lib # .[]pack default": (inf (opts) >>>
+        {
+            "#": "io.nodepack.inf/",
+
+            "org.pinf.genesis.inception/io.nodepack.inf/community.npm # .cache": "%%%opts.cache%%%",
+            "org.pinf.genesis.inception/io.nodepack.inf/community.npm # .[]pack": {
+                "name": "bash.origin.lib.default",
+                "descriptor": "./packs/default/package.json",
+                "aspect": "dependencies",
+                "basePath": "%%%opts.basePath%%%"
+            },
+
+            "org.pinf.genesis.inception # toolchain": "../",
+            "org.pinf.genesis.inception # origin": "bash.origin.lib",
+            "org.pinf.genesis.inception # run()": "contract",
+            "org.pinf.genesis.inception # run()": "expand"
+        }
+    <<<),
+
+    "org.pinf.genesis.inception # on.contract": "org.pinf.genesis.inception/bash.origin.lib # contract",
+    "org.pinf.genesis.inception # on.expand": "org.pinf.genesis.inception/bash.origin.lib # expand"
+}

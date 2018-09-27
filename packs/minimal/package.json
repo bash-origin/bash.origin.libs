@@ -1,0 +1,9 @@
+{
+    "name": "bash.origin.lib.minimal",
+    "dependencies": {
+        "bash.origin": "^0.1.90",
+        "bash.origin.modules": "^0.1.29",
+        "fs-extra": "^4.0.2",
+        "lodash": "^4.17.4"
+    }
+}

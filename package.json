@@ -1,0 +1,12 @@
+{
+  "name": "bash.origin.lib",
+  "version": "0.0.0",
+  "devDependencies": {
+    "@pinf-it/inf": "^0.1.9",
+    "bash.origin": "^0.1.90",
+    "bash.origin.test": "^0.1.39"
+  },
+  "scripts": {
+    "test": "bash.origin.test tests"
+  }
+}
