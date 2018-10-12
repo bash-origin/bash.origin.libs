@@ -16,7 +16,7 @@ function findInstalledInfo (originalBasePath, basePath) {
     }
     let newdir = PATH.dirname(basePath);
     if (newdir === basePath) {
-        throw new Error(`[bash.origin.lib] Cannot find '.~_#_io.nodepack.inf_#_installed1.json' in parent tree of '${basePath}'!`);
+        throw new Error(`[bash.origin.lib] Cannot find '.~_#_io.nodepack.inf_#_installed1.json' in parent tree of '${originalBasePath}'!`);
     }
     const info = findInstalledInfo(originalBasePath, newdir);
     info.declaringPackagePath = basePath;
@@ -26,7 +26,7 @@ function findInstalledInfo (originalBasePath, basePath) {
 
 function ensureInterface (basePath, stream) {
     if (!basePath) {
-        basePath = __dirname;
+        basePath = process.cwd();
     } else {
         basePath = PATH.resolve(basePath);
     }

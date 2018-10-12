@@ -48,7 +48,7 @@ exports.inf = async function (INF, ALIAS) {
             if (pointer === "run()") {
 
                 const declaringPackageRoots = [];
-                
+
                 const baseRoot = process.env.INIT_CWD || process.cwd();
 
                 declaringPackageRoots.push(baseRoot);
@@ -81,7 +81,8 @@ exports.inf = async function (INF, ALIAS) {
 
                 [
                     "default",
-                    "minimal"
+                    "minimal",
+                    "full"
                 ].forEach(function (pack) {
 
                     if (installedDescriptor.packs[`bash.origin.lib.${pack}`]) {

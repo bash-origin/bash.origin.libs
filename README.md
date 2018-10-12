@@ -29,7 +29,7 @@ Usage
 
 **main.js**
 ```
-const LIB = require("bash.origin.lib");
+const LIB = require("bash.origin.lib").forPackage(__dirname);
 
 // See `./packs/*/package.json : dependencies` for available packages
 const LODASH = LIB.require("lodash");
