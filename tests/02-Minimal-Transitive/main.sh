@@ -6,6 +6,13 @@ rm -Rf .~* node_modules package-lock.json || true
 unset ${!npm*}
 
 
+# TODO: Add another 'sub' package that uses a different 'stream' to ensure two streams can co-exist
+
+#pushd "sub" > /dev/null
+#    npm pack
+#popd > /dev/null
+
+
 npm install
 
 echo "<<<TEST_MATCH_IGNORE"
@@ -32,23 +39,25 @@ echo "-----"
 
 
 node --eval '
-    let LIB = require("bash.origin.lib").forPackage(__dirname);
+    let LIB = require("sub").LIB;
+
+    let basedir = require("path").dirname(require.resolve("sub"));
 
     console.log("LIB", LIB);
     console.log("LIB.version", LIB.version);
     console.log("LIB.node_modules", LIB.node_modules);
-    console.log("LIB.forPackage(__dirname)", LIB.forPackage(__dirname));
-    console.log("LIB.forPackage(__dirname).version", LIB.forPackage(__dirname).version);
-    console.log("LIB.forPackage(__dirname).node_modules", LIB.forPackage(__dirname).node_modules);
+    console.log("LIB.forPackage(basedir)", LIB.forPackage(basedir));
+    console.log("LIB.forPackage(basedir).version", LIB.forPackage(basedir).version);
+    console.log("LIB.forPackage(basedir).node_modules", LIB.forPackage(basedir).node_modules);
 
-    LIB = require("bash.origin.lib").forPackage(__dirname, "0");
+    LIB = require("bash.origin.lib").forPackage(basedir, "0");
     console.log("LIB.version", LIB.version);
-    LIB = require("bash.origin.lib").forPackage(__dirname, "0").forPackage(__dirname, "0");
+    LIB = require("bash.origin.lib").forPackage(basedir, "0").forPackage(basedir, "0");
     console.log("LIB.version", LIB.version);
 
-    LIB = require("bash.origin.lib").forPackage(__dirname, "0.1");
+    LIB = require("bash.origin.lib").forPackage(basedir, "0.1");
     console.log("LIB.version", LIB.version);
-    LIB = require("bash.origin.lib").forPackage(__dirname, "0.1").forPackage(__dirname, "0.1");
+    LIB = require("bash.origin.lib").forPackage(basedir, "0.1").forPackage(basedir, "0.1");
     console.log("LIB.version", LIB.version);
 '
 

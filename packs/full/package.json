@@ -1,5 +1,5 @@
 {
-    "name": "bash.origin.lib.default",
+    "name": "bash.origin.lib.full",
     "version": "0.1.0",
     "dependencies": {
         "bash.origin": "^0.1.90",
@@ -24,6 +24,18 @@
         "runbash": "^0.0.7",
         "minimist": "^1.2.0",
         "waitfor": "^0.1.3",
-        "pinf-loader-js": "^0.4.21"
+        "pinf-loader-js": "^0.4.21",
+        "it.pinf.org.npmjs": "^0.1.7",
+        "jest": "^21.2.1",
+        "nightwatch": "^0.9.16",
+        "it.pinf.org.mozilla.web-ext": "^0.1.10",
+        "to.pinf.org.mozilla.web-ext": "^0.1.7",
+        "to.pinf.com.github.pages": "^0.1.10",
+        "bash.origin.gitscm": "^0.1.3",
+        "it.pinf.org.mochajs": "^0.0.2",
+        "jsonrep": "^0.0.10",
+        "it.pinf.org.browserify": "^0.0.3",
+        "cadorn.inception": "^0.0.11",
+        "it.pinf.com.html5boilerplate": "^0.1.4"
     }
 }

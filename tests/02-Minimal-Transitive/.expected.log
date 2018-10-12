@@ -14,12 +14,12 @@ LIB { version: [Getter],
   forPackage: [Function: forPackage] }
 LIB.version 0.1.0
 LIB.node_modules TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
-LIB.forPackage(__dirname) { version: [Getter],
+LIB.forPackage(basedir) { version: [Getter],
   node_modules: [Getter],
   LIB: [Getter],
   forPackage: [Function: forPackage] }
-LIB.forPackage(__dirname).version 0.1.0
-LIB.forPackage(__dirname).node_modules TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
+LIB.forPackage(basedir).version 0.1.0
+LIB.forPackage(basedir).node_modules TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
 LIB.version 0.1.0
 LIB.version 0.1.0
 LIB.version 0.1.0

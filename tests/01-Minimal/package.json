@@ -1,0 +1,11 @@
+{
+    "dependencies": {
+        "bash.origin.lib": "../.."
+    },
+    "config": {
+        "bash.origin.lib": {
+            "pack": "minimal",
+            "stream": "0.1"
+        }
+    }
+}

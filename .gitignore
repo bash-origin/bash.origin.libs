@@ -2,3 +2,4 @@ node_modules/
 .~*
 *~.compiled.bash
 .actual.*
+/tests/*/package-lock.json

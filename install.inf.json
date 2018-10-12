@@ -1,0 +1,15 @@
+#!/usr/bin/env inf
+{
+    "install #": "./install.",
+    "install # run()": (inf (opts) >>>
+        {
+            "#": "./",
+            "org.pinf.genesis.inception/bash.origin.lib # ensure()": {
+                "pack": "%%%opts.pack%%%",
+                "stream": "%%%opts.stream%%%",
+                "basePath": "%%%opts.basePath%%%"
+            },
+            "org.pinf.genesis.inception # run()": "expand"
+        }
+    <<<)
+}

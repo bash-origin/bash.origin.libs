@@ -1,5 +1,6 @@
 {
     "name": "bash.origin.lib.minimal",
+    "version": "0.1.0",
     "dependencies": {
         "bash.origin": "^0.1.90",
         "bash.origin.modules": "^0.1.29",

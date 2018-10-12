@@ -1,9 +1,0 @@
-#!/usr/bin/env inf
-{
-    "#": [
-        "../"
-    ],
-
-    "org.pinf.genesis.inception # toolchain": "../../",
-    "org.pinf.genesis.inception # origin": "bash.origin.lib/tests"
-}
