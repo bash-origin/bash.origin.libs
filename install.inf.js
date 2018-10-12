@@ -10,11 +10,6 @@ exports.inf = async function (INF, ALIAS) {
             const declaringPackageDescriptorPath = INF.LIB.PATH.join(declaringPackageRoot, 'package.json');
             const declaringPackageDescriptor = await INF.LIB.FS.readJSONAsync(declaringPackageDescriptorPath);
 
-            if (declaringPackageDescriptor.name === "bash.origin.lib") {
-                // 'bash.origin.lib' is being installed itself so there is nothing more to do.
-                return false;
-            }
-
             const config = INF.LIB.LODASH.get(declaringPackageDescriptor, ['config', 'bash.origin.lib'], null);
 
             if (!config) {
@@ -70,6 +65,11 @@ exports.inf = async function (INF, ALIAS) {
                 });
 
                 const installedDescriptorPath = INF.LIB.PATH.join(baseRoot, ".~_#_io.nodepack.inf_#_installed1.json");
+
+                if (!await INF.LIB.FS.existsAsync(installedDescriptorPath)) {
+                    return true;
+                }
+
                 const installedDescriptor = await INF.LIB.FS.readJSONAsync(installedDescriptorPath);
 
                 const binPath = INF.LIB.PATH.join(baseRoot, "node_modules/.bin/bash.origin.lib");
