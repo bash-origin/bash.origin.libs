@@ -1,6 +1,9 @@
 {
   "name": "bash.origin.lib",
   "version": "0.1.0",
+  "pm": {
+    "publish": "npm"
+  },
   "bin": {
     "bash.origin.lib": "index.sh"
   },
