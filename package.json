@@ -1,23 +1,23 @@
 {
-  "name": "bash.origin.lib",
-  "version": "0.1.0",
-  "pm": {
-    "publish": "npm"
-  },
-  "bin": {
-    "bash.origin.lib": "index.sh"
-  },
-  "main": "index.js",
-  "dependencies": {
-    "@pinf-it/inf": "^0.1.9",
-    "semver": "^5.6.0"
-  },
-  "devDependencies": {
-    "bash.origin": "^0.1.90",
-    "bash.origin.test": "^0.1.39"
-  },
-  "scripts": {
-    "install": "./install.inf.json",
-    "test": "bash.origin.test tests"
-  }
+    "name": "bash.origin.lib",
+    "version": "0.1.1",
+    "pm": {
+        "publish": "npm"
+    },
+    "bin": {
+        "bash.origin.lib": "index.sh"
+    },
+    "main": "index.js",
+    "dependencies": {
+        "@pinf-it/inf": "^0.1.9",
+        "semver": "^5.6.0"
+    },
+    "devDependencies": {
+        "bash.origin": "^0.1.90",
+        "bash.origin.test": "^0.1.39"
+    },
+    "scripts": {
+        "install": "./install.inf.json",
+        "test": "bash.origin.test tests"
+    }
 }
