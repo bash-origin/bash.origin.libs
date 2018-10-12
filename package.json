@@ -9,7 +9,7 @@
     },
     "main": "index.js",
     "dependencies": {
-        "@pinf-it/inf": "^0.1.10",
+        "@pinf-it/inf": "^0.1.11",
         "semver": "^5.6.0"
     },
     "devDependencies": {
