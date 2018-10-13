@@ -8,16 +8,30 @@ exports.inf = async function (INF, ALIAS) {
 
             if (pointer === "run()") {
 
+                console.log("Updating bash.origin.lib package ...");
+
+                await NCU.run({
+                    packageFile: INF.LIB.PATH.join(IpacksPath, pack, 'package.json'),
+                    silent: true,
+                    jsonUpgraded: true
+                }).then((upgraded) => {
+
+                    console.log(`Updated bash.origin.lib package:`, upgraded);
+
+                    return true;
+                });
+
                 console.log("Updating packs ...");
 
-                const packs = await INF.LIB.FS.readdirAsync(INF.LIB.PATH.join(__dirname, 'packs'));
+                const packsPath = INF.LIB.PATH.join(__dirname, 'packs');
+                const packs = await INF.LIB.FS.readdirAsync(packsPath);
 
-                await INF.LIB.Promise.mapSeries(packs, function (pack) {
+                await INF.LIB.Promise.mapSeries(packs, async function (pack) {
 
                     console.log(`Updating packages for pack '${pack}' ...`);
 
                     await NCU.run({
-                        packageFile: INF.LIB.PATH.join(INF.rootDirm, 'package.json'),
+                        packageFile: INF.LIB.PATH.join(IpacksPath, pack, 'package.json'),
                         silent: true,
                         jsonUpgraded: true
                     }).then((upgraded) => {
