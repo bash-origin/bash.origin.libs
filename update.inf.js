@@ -11,7 +11,7 @@ exports.inf = async function (INF, ALIAS) {
                 console.log("Updating bash.origin.lib package ...");
 
                 await NCU.run({
-                    packageFile: INF.LIB.PATH.join(IpacksPath, pack, 'package.json'),
+                    packageFile: INF.LIB.PATH.join(__dirname, 'package.json'),
                     silent: true,
                     jsonUpgraded: true
                 }).then((upgraded) => {
