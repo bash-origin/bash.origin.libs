@@ -15,10 +15,10 @@ if [ -z "${BASH_ORIGIN_LIB_BASE_PATHS[${stream}]}" ]; then
     exit 1
 fi
 
-if [ "$1" == "bin" ]; then
+if [ "$1" == "binPath" ]; then
     printf "${BASH_ORIGIN_LIB_BASE_PATHS[${stream}]}/node_modules/.bin"
 fi
 
-if [ "$1" == "node_modules" ]; then
+if [ "$1" == "nodeModulesPath" ]; then
     printf "${BASH_ORIGIN_LIB_BASE_PATHS[${stream}]}/node_modules"
 fi

@@ -14,10 +14,12 @@
     },
     "devDependencies": {
         "bash.origin": "^0.1.90",
-        "bash.origin.test": "^0.1.39"
+        "bash.origin.test": "^0.1.39",
+        "npm-check-updates": "^2.14.2"
     },
     "scripts": {
         "install": "./install.inf.json",
-        "test": "bash.origin.test tests"
+        "test": "bash.origin.test tests",
+        "update": "./update.inf.json"
     }
 }

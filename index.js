@@ -7,20 +7,27 @@ function findInstalledInfo (originalBasePath, basePath) {
     if (!basePath) {
         basePath = originalBasePath;
     }
+    const info = {};
+
+    let declaringPackagePath = PATH.join(basePath, "package.json");
+    if (FS.existsSync(declaringPackagePath)) {
+        info.declaringPackagePath = basePath;
+    }
+
     let path = PATH.join(basePath, ".~_#_io.nodepack.inf_#_installed1.json");
     if (FS.existsSync(path)) {
-        return {
-            declaringPackagePath: basePath,
-            installedDescriptorPath: path
-        };
+        info.installedDescriptorPath = path;
+        return info;
     }
+
     let newdir = PATH.dirname(basePath);
     if (newdir === basePath) {
         throw new Error(`[bash.origin.lib] Cannot find '.~_#_io.nodepack.inf_#_installed1.json' in parent tree of '${originalBasePath}'!`);
     }
-    const info = findInstalledInfo(originalBasePath, newdir);
-    info.declaringPackagePath = basePath;
-    return info;
+
+    const subInfo = findInstalledInfo(originalBasePath, newdir);
+    subInfo.declaringPackagePath = info.declaringPackagePath || subInfo.declaringPackagePath;
+    return subInfo;
 }
 
 
@@ -35,7 +42,6 @@ function ensureInterface (basePath, stream) {
         const installedInfo = findInstalledInfo(basePath);
 
         const installedDescriptor = JSON.parse(FS.readFileSync(installedInfo.installedDescriptorPath, "utf8"));
-        const declaringPackagePath = PATH.join(installedInfo.installedDescriptorPath, "..");
         const declaringDescriptor = JSON.parse(FS.readFileSync(PATH.join(installedInfo.declaringPackagePath, "package.json"), "utf8"));
 
         const packConfig = declaringDescriptor.config['bash.origin.lib'];
@@ -120,10 +126,14 @@ function ensureInterface (basePath, stream) {
                     return JSON.parse(FS.readFileSync(PATH.join(aspectCachePath, "package.json"), "utf8")).version;
                 },
             
-                get node_modules () {
+                get nodeModulesPath () {
                     return PATH.join(aspectCachePath, "node_modules");
                 },
-            
+
+                get binPath () {
+                    return PATH.join(aspectCachePath, "node_modules/.bin");
+                },
+
                 get LIB () {
                     delete this.LIB;
                     const LIB = (this.LIB = makeLIB(packageBasePath));
@@ -143,7 +153,7 @@ function ensureInterface (basePath, stream) {
                         !packageBasePath &&
                         !stream
                     ) {
-                        return makeAPI(packageBasePath);
+                        return makeAPI(installedInfo.declaringPackagePath);
                     }
                     return ensureInterface(packageBasePath, stream).forPackage();
                 }
@@ -152,7 +162,7 @@ function ensureInterface (basePath, stream) {
             return API;
         }
         
-        ensureInterface._cache[basePath + ":" + stream] = makeAPI(declaringPackagePath);
+        ensureInterface._cache[basePath + ":" + stream] = makeAPI(installedInfo.declaringPackagePath);
     }
     return ensureInterface._cache[basePath + ":" + stream];
 }
@@ -165,8 +175,12 @@ module.exports = {
         return ensureInterface().version;
     },
 
-    get node_modules () {
-        return ensureInterface().node_modules;
+    get nodeModulesPath () {
+        return ensureInterface().nodeModulesPath;
+    },
+
+    get binPath () {
+        return ensureInterface().binPath;
     },
 
     get LIB () {

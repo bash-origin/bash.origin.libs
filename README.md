@@ -59,3 +59,21 @@ When the `bash.origin.lib` package is installed by `npm` it calls `./inf.install
   5. All `node_modules/.bin/*` commands from the cached pack are linked into `node_modules/.bin/` of the declaring package if they do not already exist.
 
 After installation, packages from the cached pack are available in the declaring package via `require("bash.origin.lib").require("<Package_Name>")` where `<Package_Name>` is one of `./packs/<Pack_Alias>/package.json : dependencies`.
+
+Development
+===========
+
+Update packages in packs:
+
+    npm run update
+
+Release preview:
+
+    npm run release-as-preview
+
+    # To use in a project use
+    npm install bash.origin.test@pre
+
+Release to all:
+
+    npm run release-to-all
