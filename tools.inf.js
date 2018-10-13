@@ -53,7 +53,9 @@ exports.inf = async function (INF, ALIAS) {
 
                     // @see https://webpro.github.io/release-it/
                     RELEASE_IT({
-                        "preReleaseId": "pre",
+                        "non-interactive": true,
+                        "dry-run": true,
+                        "increment": "minor",
                         "npm": {
                             "publish": false,
                             "tag": "pre"
