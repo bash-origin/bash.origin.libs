@@ -1,0 +1,5 @@
+#!/usr/bin/env inf
+{
+    "tools #": "./tools.",
+    "tools # %%{args._[1]}%%()": "%%{args._[2]}%%"
+}

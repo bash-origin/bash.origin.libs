@@ -15,11 +15,13 @@
     "devDependencies": {
         "bash.origin": "^0.1.90",
         "bash.origin.test": "^0.1.39",
-        "npm-check-updates": "^2.14.2"
+        "npm-check-updates": "^2.14.2",
+        "release-it": "^7.6.1"
     },
     "scripts": {
         "install": "./install.inf.json",
         "test": "bash.origin.test tests",
-        "update": "./update.inf.json"
+        "update": "./tools.inf.json run update",
+        "release-as-preview": "./tools.inf.json run release-as-preview"
     }
 }
