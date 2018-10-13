@@ -10,15 +10,17 @@ exports.inf = async function (INF, ALIAS) {
 
                 console.log("Updating bash.origin.lib package ...");
 
+                // @see https://github.com/tjunnone/npm-check-updates
                 await NCU.run({
-                    packageFile: INF.LIB.PATH.join(__dirname, 'package.json'),
-                    silent: true,
-                    jsonUpgraded: true
+                    upgrade: true,
+                    packageFile: INF.LIB.PATH.join(__dirname, 'package.json')
                 }).then((upgraded) => {
 
-                    console.log(`Updated bash.origin.lib package:`, upgraded);
+                    // TODO: If only patch version updated we update patch version of pack
+                    // TODO: If minor version updated we update minor version of pack
+                    // TODO: If major version updated we update major version of pack
 
-                    return true;
+                    console.log(`Updated bash.origin.lib package:`, upgraded);
                 });
 
                 console.log("Updating packs ...");
@@ -31,11 +33,14 @@ exports.inf = async function (INF, ALIAS) {
                     console.log(`Updating packages for pack '${pack}' ...`);
 
                     await NCU.run({
-                        packageFile: INF.LIB.PATH.join(IpacksPath, pack, 'package.json'),
-                        silent: true,
-                        jsonUpgraded: true
+                        upgrade: true,
+                        packageFile: INF.LIB.PATH.join(packsPath, pack, 'package.json')
                     }).then((upgraded) => {
-    
+
+                        // TODO: If only patch version updated we update patch version of pack
+                        // TODO: If minor version updated we update minor version of pack
+                        // TODO: If major version updated we update major version of pack
+
                         console.log(`Updated packages for pack '${pack}':`, upgraded);
                     });
                 });
