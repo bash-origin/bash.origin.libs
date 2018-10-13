@@ -72,7 +72,7 @@ Release preview:
     npm run release-as-preview
 
     # To use in a project use
-    npm install bash.origin.test@preview
+    npm install bash.origin.test@pre
 
 Release to all:
 
