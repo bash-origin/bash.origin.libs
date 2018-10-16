@@ -1,6 +1,6 @@
 {
   "name": "bash.origin.lib",
-  "version": "0.2.12-pre.10",
+  "version": "0.2.13-pre.0",
   "pm": {
     "publish": "npm"
   },
