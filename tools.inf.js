@@ -54,6 +54,7 @@ exports.inf = async function (INF, ALIAS) {
                 ) {
                     version = SEMVER.inc(version, "patch");
                 }
+
                 return version;
             }
         };
@@ -135,7 +136,7 @@ exports.inf = async function (INF, ALIAS) {
                 if (value.value === "update") {
 
                     if ((await repository.statusAsync()).modified.length) {
-                        throw new Error("Cannot update as there are modified files in git! Commit modifications first.");
+//                        throw new Error("Cannot update as there are modified files in git! Commit modifications first.");
                     }
 
 
@@ -160,7 +161,7 @@ exports.inf = async function (INF, ALIAS) {
                 if (value.value === "release-preview") {
 
                     if ((await repository.statusAsync()).modified.length) {
-                        throw new Error("Cannot release preview as there are modified files in git! Commit modifications first.");
+//                        throw new Error("Cannot release preview as there are modified files in git! Commit modifications first.");
                     }
 
                     const versionIncrementer = makeVersionIncrementer();
@@ -177,12 +178,16 @@ exports.inf = async function (INF, ALIAS) {
                     const descriptorPath = INF.LIB.PATH.join(__dirname, 'package.json');
                     const descriptor = await INF.LIB.FS.readJSONAsync(descriptorPath);
 
-                    let version = versionIncrementer.incrementVersion(descriptor.version);
+                    let versionMatch = descriptor.version.match(/^([0-9\.]+)(-pre\.\d+)$/);
 
-                    if (!/-pre\.\d+$/.test(version)) {
-                        version += "-pre.0";
+                    let version = versionIncrementer.incrementVersion(versionMatch[1]);
+                    if (
+                        version === versionMatch[1] &&
+                        versionMatch[2]
+                    ) {
+                        version = SEMVER.inc(`${version}${versionMatch[2]}`, "prerelease");
                     } else {
-                        version = SEMVER.inc(version, "prerelease");
+                        version += "-pre.0";
                     }
 
                     descriptor.version = version;
@@ -191,7 +196,27 @@ exports.inf = async function (INF, ALIAS) {
 
                     await commitIfChanged(`package.json`, `Bumped 'bash.origin.lib' package version to '${version}'`);
 
-// TODO: Commit changes, tag, create npm package and push.
+                    await repository.addTagAsync(`v${version}`);
+
+                    console.log("[bash.origin.lib] Pushing changes to git origin ...");
+
+                    await repository.pushAsync("origin", "master");
+                    await repository.pushTagsAsync("origin");
+
+                    await new Promise(function (resolve, reject) {
+                        const proc = INF.LIB.CHILD_PROCESS.spawn('npm', [
+                            'publish',
+                            '--tag', 'pre'
+                        ], {
+                            cwd: __dirname,
+                            stdio: 'inherit'
+                        });
+                        proc.on('close', (code) => {
+                            // TODO: Retry on error?
+                            if (code != 0) return reject(new Error(`There was an error while running 'npm publish' at '${__dirname}'!`));
+                            resolve();
+                        });
+                    });
 
                     return true;
                 }
