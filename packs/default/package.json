@@ -2,7 +2,7 @@
   "name": "bash.origin.lib.default",
   "version": "0.1.1",
   "dependencies": {
-    "bash.origin": "^0.1.90",
+    "bash.origin": "^0.1.89",
     "bash.origin.test": "^0.1.39",
     "bash.origin.modules": "^0.1.30",
     "bash.origin.express": "^0.1.11",
