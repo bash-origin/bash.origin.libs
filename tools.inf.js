@@ -14,7 +14,6 @@ exports.inf = async function (INF, ALIAS) {
     const packNames = await INF.LIB.FS.readdirAsync(packsPath);
 
 
-
     function makeVersionIncrementer () {
 
         const segmentChanged = {
@@ -59,7 +58,6 @@ exports.inf = async function (INF, ALIAS) {
             }
         };
     }
-
 
 
     async function updatePackage (basePath) {
@@ -113,7 +111,6 @@ exports.inf = async function (INF, ALIAS) {
         return version;
     }
 
-
     async function commitIfChanged (filepath, message) {
 
         await repository.addAsync(filepath);
@@ -127,6 +124,43 @@ exports.inf = async function (INF, ALIAS) {
         await repository.commitAsync(message);
     }
 
+    async function savePackageTagAndPush (version) {
+
+        let versionMatch = version.match(/^([0-9\.]+)(-pre\.\d+)$/);
+
+        await commitIfChanged(`package.json`, `Bumped 'bash.origin.lib' package version to '${version}'`);
+
+        await repository.addTagAsync(`v${version}`);
+
+        console.log("[bash.origin.lib] Pushing changes to git origin ...");
+
+        await repository.pushAsync("origin", "master");
+        await repository.pushTagsAsync("origin");
+
+        console.log("[bash.origin.lib] Publishing npm package ...");
+
+        await new Promise(function (resolve, reject) {
+
+            const args = [
+                'publish'
+            ];
+
+            if (versionMatch[2]) {
+                args.push('--tag', 'pre');
+            }
+
+            const proc = INF.LIB.CHILD_PROCESS.spawn('npm', args, {
+                cwd: __dirname,
+                stdio: 'inherit'
+            });
+            proc.on('close', (code) => {
+                // TODO: Retry on error?
+                if (code != 0) return reject(new Error(`There was an error while running 'npm publish' at '${__dirname}'!`));
+                resolve();
+            });
+        });
+    }
+
 
     return {
         invoke: async function (pointer, value) {
@@ -136,7 +170,7 @@ exports.inf = async function (INF, ALIAS) {
                 if (value.value === "update") {
 
                     if ((await repository.statusAsync()).modified.length) {
-//                        throw new Error("Cannot update as there are modified files in git! Commit modifications first.");
+                        throw new Error("Cannot update as there are modified files in git! Commit modifications first.");
                     }
 
 
@@ -161,7 +195,7 @@ exports.inf = async function (INF, ALIAS) {
                 if (value.value === "release-preview") {
 
                     if ((await repository.statusAsync()).modified.length) {
-//                        throw new Error("Cannot release preview as there are modified files in git! Commit modifications first.");
+                        throw new Error("Cannot release preview as there are modified files in git! Commit modifications first.");
                     }
 
                     const versionIncrementer = makeVersionIncrementer();
@@ -194,32 +228,35 @@ exports.inf = async function (INF, ALIAS) {
 
                     await INF.LIB.FS.outputFileAsync(descriptorPath, JSON.stringify(descriptor, null, 2) + "\n", "utf8");
 
-                    await commitIfChanged(`package.json`, `Bumped 'bash.origin.lib' package version to '${version}'`);
+                    await savePackageDescriptorTagAndPush(version);
 
-                    await repository.addTagAsync(`v${version}`);
+                    return true;
+                } else
+                if (value.value === "release-to-all") {
 
-                    console.log("[bash.origin.lib] Pushing changes to git origin ...");
+                    if ((await repository.statusAsync()).modified.length) {
+                        throw new Error("Cannot release as there are modified files in git! Commit modifications first.");
+                    }
 
-                    await repository.pushAsync("origin", "master");
-                    await repository.pushTagsAsync("origin");
+                    const latestTag = (await repository.tagsAsync()).latest;
+                    const latestTagHash = (await repository.revparseAsync([latestTag]));
+                    const masterHash = (await repository.revparseAsync(["master"]));
 
-                    console.log("[bash.origin.lib] Publishing npm package ...");
+                    if (latestTagHash !== masterHash) {
+                        throw new Error("Cannot release. The last commit is not a release preview! Create one first.");
+                    }
 
-                    await new Promise(function (resolve, reject) {
-                        const proc = INF.LIB.CHILD_PROCESS.spawn('npm', [
-                            'publish',
-                            '--tag', 'pre'
-                        ], {
-                            cwd: __dirname,
-                            stdio: 'inherit'
-                        });
-                        proc.on('close', (code) => {
-                            // TODO: Retry on error?
-                            if (code != 0) return reject(new Error(`There was an error while running 'npm publish' at '${__dirname}'!`));
-                            resolve();
-                        });
-                    });
+                    const descriptorPath = INF.LIB.PATH.join(__dirname, 'package.json');
+                    const descriptor = await INF.LIB.FS.readJSONAsync(descriptorPath);
 
+                    let versionMatch = descriptor.version.match(/^([0-9\.]+)(-pre\.\d+)$/);
+
+                    descriptor.version = versionMatch[1];
+
+                    await INF.LIB.FS.outputFileAsync(descriptorPath, JSON.stringify(descriptor, null, 2) + "\n", "utf8");
+
+                    await savePackageDescriptorTagAndPush(version);
+        
                     return true;
                 }
 

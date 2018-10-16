@@ -22,6 +22,7 @@
     "install": "./install.inf.json",
     "test": "bash.origin.test tests",
     "update": "./tools.inf.json run update",
-    "release-preview": "./tools.inf.json run release-preview"
+    "release-preview": "./tools.inf.json run release-preview",
+    "release-to-all": "./tools.inf.json run release-to-all"
   }
 }
