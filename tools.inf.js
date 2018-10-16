@@ -220,10 +220,15 @@ exports.inf = async function (INF, ALIAS) {
                         versionMatch[2]
                     ) {
                         version = SEMVER.inc(`${version}${versionMatch[2]}`, "prerelease");
-                    } else {
+                    } else
+                    if (version === versionMatch[1]) {
+                        version = SEMVER.inc(version, "patch");
+                        version += "-pre.0";
+                    } else
+                    if (versionMatch[2]) {
                         version += "-pre.0";
                     }
-
+                    
                     descriptor.version = version;
 
                     await INF.LIB.FS.outputFileAsync(descriptorPath, JSON.stringify(descriptor, null, 2) + "\n", "utf8");
