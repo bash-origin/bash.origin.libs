@@ -126,7 +126,7 @@ exports.inf = async function (INF, ALIAS) {
 
     async function savePackageDescriptorTagAndPush (version) {
 
-        let versionMatch = version.match(/^([0-9\.]+)(-pre\.\d+)$/);
+        let versionMatch = version.match(/^([0-9\.]+)(-pre\.\d+)?$/);
 
         await commitIfChanged(`package.json`, `Bumped 'bash.origin.lib' package version to '${version}'`);
 
@@ -212,7 +212,7 @@ exports.inf = async function (INF, ALIAS) {
                     const descriptorPath = INF.LIB.PATH.join(__dirname, 'package.json');
                     const descriptor = await INF.LIB.FS.readJSONAsync(descriptorPath);
 
-                    let versionMatch = descriptor.version.match(/^([0-9\.]+)(-pre\.\d+)$/);
+                    let versionMatch = descriptor.version.match(/^([0-9\.]+)(-pre\.\d+)?$/);
 
                     let version = versionIncrementer.incrementVersion(versionMatch[1]);
                     if (
@@ -249,7 +249,7 @@ exports.inf = async function (INF, ALIAS) {
                     const descriptorPath = INF.LIB.PATH.join(__dirname, 'package.json');
                     const descriptor = await INF.LIB.FS.readJSONAsync(descriptorPath);
 
-                    let versionMatch = descriptor.version.match(/^([0-9\.]+)(-pre\.\d+)$/);
+                    let versionMatch = descriptor.version.match(/^([0-9\.]+)(-pre\.\d+)?$/);
 
                     descriptor.version = versionMatch[1];
 
