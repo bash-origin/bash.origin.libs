@@ -124,7 +124,7 @@ exports.inf = async function (INF, ALIAS) {
         await repository.commitAsync(message);
     }
 
-    async function savePackageTagAndPush (version) {
+    async function savePackageDescriptorTagAndPush (version) {
 
         let versionMatch = version.match(/^([0-9\.]+)(-pre\.\d+)$/);
 
