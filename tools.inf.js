@@ -228,7 +228,7 @@ exports.inf = async function (INF, ALIAS) {
 
                     await INF.LIB.FS.outputFileAsync(descriptorPath, JSON.stringify(descriptor, null, 2) + "\n", "utf8");
 
-                    await savePackageDescriptorTagAndPush(version);
+                    await savePackageDescriptorTagAndPush(descriptor.version);
 
                     return true;
                 } else
@@ -255,7 +255,7 @@ exports.inf = async function (INF, ALIAS) {
 
                     await INF.LIB.FS.outputFileAsync(descriptorPath, JSON.stringify(descriptor, null, 2) + "\n", "utf8");
 
-                    await savePackageDescriptorTagAndPush(version);
+                    await savePackageDescriptorTagAndPush(descriptor.version);
         
                     return true;
                 }
