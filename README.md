@@ -69,7 +69,7 @@ Update packages in packs:
 
 Release preview:
 
-    npm run release-as-preview
+    npm run release-preview
 
     # To use in a project use
     npm install bash.origin.test@pre

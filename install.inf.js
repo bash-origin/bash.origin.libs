@@ -1,7 +1,6 @@
 
 exports.inf = async function (INF, ALIAS) {
 
-    const SEMVER = require("semver");
 
     async function ensureInstalledForPaths (baseRoot, declaringPackageRoots, installer) {
 

@@ -1,27 +1,27 @@
 {
-    "name": "bash.origin.lib",
-    "version": "0.1.6",
-    "pm": {
-        "publish": "npm"
-    },
-    "bin": {
-        "bash.origin.lib": "index.sh"
-    },
-    "main": "index.js",
-    "dependencies": {
-        "@pinf-it/inf": "^0.1.13",
-        "semver": "^5.6.0"
-    },
-    "devDependencies": {
-        "bash.origin": "^0.1.90",
-        "bash.origin.test": "^0.1.39",
-        "npm-check-updates": "^2.14.2",
-        "release-it": "^7.6.1"
-    },
-    "scripts": {
-        "install": "./install.inf.json",
-        "test": "bash.origin.test tests",
-        "update": "./tools.inf.json run update",
-        "release-as-preview": "./tools.inf.json run release-as-preview"
-    }
+  "name": "bash.origin.lib",
+  "version": "0.2.7",
+  "pm": {
+    "publish": "npm"
+  },
+  "bin": {
+    "bash.origin.lib": "index.sh"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@pinf-it/inf": "^0.1.13"
+  },
+  "devDependencies": {
+    "bash.origin": "^0.1.90",
+    "bash.origin.test": "^0.1.39",
+    "npm-check-updates": "^2.14.2",
+    "semver": "^5.6.0",
+    "simple-git": "^1.105.0"
+  },
+  "scripts": {
+    "install": "./install.inf.json",
+    "test": "bash.origin.test tests",
+    "update": "./tools.inf.json run update",
+    "release-preview": "./tools.inf.json run release-preview"
+  }
 }
