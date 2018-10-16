@@ -251,6 +251,10 @@ exports.inf = async function (INF, ALIAS) {
 
                     let versionMatch = descriptor.version.match(/^([0-9\.]+)(-pre\.\d+)?$/);
 
+                    if (!versionMatch[2]) {
+                        throw new Error("Cannot release. The last commit is already a release! Create a new release preview first.");
+                    }
+
                     descriptor.version = versionMatch[1];
 
                     await INF.LIB.FS.outputFileAsync(descriptorPath, JSON.stringify(descriptor, null, 2) + "\n", "utf8");
