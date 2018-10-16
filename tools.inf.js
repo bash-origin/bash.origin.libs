@@ -203,6 +203,8 @@ exports.inf = async function (INF, ALIAS) {
                     await repository.pushAsync("origin", "master");
                     await repository.pushTagsAsync("origin");
 
+                    console.log("[bash.origin.lib] Publishing npm package ...");
+
                     await new Promise(function (resolve, reject) {
                         const proc = INF.LIB.CHILD_PROCESS.spawn('npm', [
                             'publish',
