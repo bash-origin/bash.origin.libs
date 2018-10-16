@@ -6,6 +6,11 @@ exports.inf = async function (INF, ALIAS) {
     const SIMPLE_GIT = require('simple-git');
 
 
+    // @see https://github.com/steveukx/git-js
+    const repository = SIMPLE_GIT(__dirname);
+    INF.LIB.Promise.promisifyAll(repository);
+
+
     async function updatePackage (basePath) {
 
         const descriptorPath = INF.LIB.PATH.join(basePath, 'package.json');
@@ -82,8 +87,23 @@ exports.inf = async function (INF, ALIAS) {
         descriptorAfter.version = version;
 
         await INF.LIB.FS.outputFileAsync(descriptorPath, JSON.stringify(descriptorAfter, null, 2) + "\n", "utf8");
+
+        return version;
     }
 
+
+    async function commitIfChanged (filepath, message) {
+
+        await repository.addAsync(filepath);
+
+        if ((await repository.statusAsync()).staged.indexOf(filepath) === -1) {
+            return;
+        }
+
+        console.log(`[bash.origin.lib] Committing changes to '${filepath}'`);
+
+        await repository.commitAsync(message);
+    }
 
 
     return {
@@ -93,10 +113,15 @@ exports.inf = async function (INF, ALIAS) {
 
                 if (value.value === "update") {
 
+                    if ((await repository.statusAsync()).staged.length) {
+                        throw new Error("Cannot update as there are staged git changes! Remove staged changes first.");
+                    }
+
 
                     console.log("[bash.origin.lib] Updating bash.origin.lib package ...");
 
-                    await updatePackage(__dirname);
+                    const version = await updatePackage(__dirname);
+                    await commitIfChanged("package.json", `Bumped 'bash.origin.lib' package version to '${version}'`);
 
 
                     console.log("[bash.origin.lib] Updating packs ...");
@@ -108,15 +133,9 @@ exports.inf = async function (INF, ALIAS) {
 
                         console.log(`[bash.origin.lib] Updating packages for pack '${pack}' ...`);
 
-                        await updatePackage(INF.LIB.PATH.join(packsPath, pack));
+                        const version = await updatePackage(INF.LIB.PATH.join(packsPath, pack));
+                        await commitIfChanged(`packs/${pack}/package.json`, `Bumped '${pack}' pack version to '${version}'`);
                     });
-
-                    // @see https://github.com/steveukx/git-js
-                    let repository = SIMPLE_GIT(__dirname);
-                    INF.LIB.Promise.promisifyAll(repository);
-                    
-                    await repository.addAsync("package.json");
-                    await repository.addAsync("packs/*/package.json");
 
 
                 } else
