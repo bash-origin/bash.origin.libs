@@ -9,7 +9,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@pinf-it/inf": "^0.1.13"
+    "@pinf-it/inf": "^0.1.14"
   },
   "devDependencies": {
     "bash.origin": "^0.1.90",

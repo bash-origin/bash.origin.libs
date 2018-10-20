@@ -125,19 +125,34 @@ function ensureInterface (basePath, stream) {
                 get version () {
                     return JSON.parse(FS.readFileSync(PATH.join(aspectCachePath, "package.json"), "utf8")).version;
                 },
-            
+
                 get nodeModulesPath () {
                     return PATH.join(aspectCachePath, "node_modules");
+                },
+
+                get nodeModulesPaths () {
+                    return [
+                        PATH.join(packageBasePath, "node_modules"),
+                        PATH.join(aspectCachePath, "node_modules")
+                    ];
                 },
 
                 get binPath () {
                     return PATH.join(aspectCachePath, "node_modules/.bin");
                 },
 
+                resolve: function (uri) {
+                    return API.LIB.resolve(uri);
+                },
+
+                require: function (uri) {
+                    return API.LIB.require(uri);
+                },
+
                 get LIB () {
                     delete this.LIB;
                     const LIB = (this.LIB = makeLIB(packageBasePath));
-        
+                    
                     LIB.resolve = function (uri) {
                         var uri_parts = uri.split("/");
                         if (!LIB["_path_" + uri_parts[0]]) {
@@ -145,6 +160,11 @@ function ensureInterface (basePath, stream) {
                         }
                         return PATH.join(LIB["_path_" + uri_parts[0]], uri_parts.slice(1).join("/"));
                     };
+
+                    LIB.require = function (uri) {
+                        return require(LIB.resolve(uri));
+                    };
+
                     return LIB;
                 },
 
@@ -179,8 +199,20 @@ module.exports = {
         return ensureInterface().nodeModulesPath;
     },
 
+    get nodeModulesPaths () {
+        return ensureInterface().nodeModulesPaths;
+    },
+
     get binPath () {
         return ensureInterface().binPath;
+    },
+
+    resolve: function (uri) {
+        return ensureInterface().resolve(uri);
+    },
+
+    require: function (uri) {
+        return ensureInterface().require(uri);
     },
 
     get LIB () {

@@ -3,3 +3,4 @@ node_modules/
 *~.compiled.bash
 .actual.*
 package-lock.json
+npm-debug.log

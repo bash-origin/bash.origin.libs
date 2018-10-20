@@ -3,7 +3,7 @@
 echo "TEST_MATCH_IGNORE>>>"
 
 rm -Rf .~* node_modules package-lock.json || true
-unset ${!npm*}
+unset ${!npm*} INIT_CWD
 
 
 # TODO: Add another 'sub' package that uses a different 'stream' to ensure two streams can co-exist
@@ -13,7 +13,7 @@ unset ${!npm*}
 #popd > /dev/null
 
 
-npm install
+npm install --only=prod
 
 echo "<<<TEST_MATCH_IGNORE"
 
@@ -47,9 +47,13 @@ node --eval '
     console.log("LIB.version", LIB.version);
     console.log("LIB.binPath", LIB.binPath);
     console.log("LIB.nodeModulesPath", LIB.nodeModulesPath);
+    console.log("LIB.nodeModulesPaths", LIB.nodeModulesPaths);
+    console.log("LIB.resolve(\"lodash\")", LIB.resolve("lodash"));
+    console.log("LIB.resolve(\"bash.origin.modules\")", LIB.resolve("bash.origin.modules"));
     console.log("LIB.forPackage(basedir)", LIB.forPackage(basedir));
     console.log("LIB.forPackage(basedir).version", LIB.forPackage(basedir).version);
     console.log("LIB.forPackage(basedir).nodeModulesPath", LIB.forPackage(basedir).nodeModulesPath);
+    console.log("LIB.forPackage(basedir).nodeModulesPaths", LIB.forPackage(basedir).nodeModulesPaths);
 
     LIB = require("bash.origin.lib").forPackage(basedir, "0");
     console.log("LIB.version", LIB.version);

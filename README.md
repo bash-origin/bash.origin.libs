@@ -29,10 +29,11 @@ Usage
 
 **main.js**
 ```
-const LIB = require("bash.origin.lib").forPackage(__dirname);
+const BO_CTX = require("bash.origin.lib").forPackage(__dirname);
 
 // See `./packs/*/package.json : dependencies` for available packages
-const LODASH = LIB.require("lodash");
+const LODASH = BO_CTX.LIB.LODASH;
+const LODASH = BO_CTX.require("lodash");
 ```
 
 Design

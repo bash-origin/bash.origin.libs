@@ -1,27 +1,42 @@
 -----
 node_modules/.bin/bash.origin.lib
 -----
-bin: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules/.bin
-node_modules: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
-bin[0]: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules/.bin
-node_modules[0]: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
-bin[0.1]: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules/.bin
-node_modules[0.1]: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
+binPath: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules/.bin
+nodeModulesPath: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
+binPath[0]: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules/.bin
+nodeModulesPath[0]: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
+binPath[0.1]: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules/.bin
+nodeModulesPath[0.1]: TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
 -----
 LIB { version: [Getter],
-  node_modules: [Getter],
+  nodeModulesPath: [Getter],
+  nodeModulesPaths: [Getter],
+  binPath: [Getter],
+  resolve: [Function: resolve],
+  require: [Function: require],
   LIB: [Getter],
   forPackage: [Function: forPackage] }
-LIB.version 0.1.0
-LIB.node_modules TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
+LIB.version 0.1.1
+LIB.binPath TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules/.bin
+LIB.nodeModulesPath TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
+LIB.nodeModulesPaths [ 'TeStLoCaLiZeD/node_modules',
+  'TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules' ]
+LIB.resolve("lodash") TeStLoCaLiZeD/node_modules/lodash
+LIB.resolve("bash.origin.modules") TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules/bash.origin.modules
 LIB.forPackage(__dirname) { version: [Getter],
-  node_modules: [Getter],
+  nodeModulesPath: [Getter],
+  nodeModulesPaths: [Getter],
+  binPath: [Getter],
+  resolve: [Function: resolve],
+  require: [Function: require],
   LIB: [Getter],
   forPackage: [Function: forPackage] }
-LIB.forPackage(__dirname).version 0.1.0
-LIB.forPackage(__dirname).node_modules TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
-LIB.version 0.1.0
-LIB.version 0.1.0
-LIB.version 0.1.0
-LIB.version 0.1.0
+LIB.forPackage(__dirname).version 0.1.1
+LIB.forPackage(__dirname).nodeModulesPath TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules
+LIB.forPackage(__dirname).nodeModulesPaths [ 'TeStLoCaLiZeD/node_modules',
+  'TeStLoCaLiZeD/.bash.origin.lib/io.nodepack.inf/community.npm/bash.origin.lib.minimal/v0.1_v10_darwin_x64/dependencies/node_modules' ]
+LIB.version 0.1.1
+LIB.version 0.1.1
+LIB.version 0.1.1
+LIB.version 0.1.1
 OK

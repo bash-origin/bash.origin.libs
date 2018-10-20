@@ -7,9 +7,12 @@ exports.inf = async function (INF, ALIAS) {
         return INF.LIB.Promise.map(declaringPackageRoots, async function (declaringPackageRoot) {
 
             const declaringPackageDescriptorPath = INF.LIB.PATH.join(declaringPackageRoot, 'package.json');
+
             const declaringPackageDescriptor = await INF.LIB.FS.readJSONAsync(declaringPackageDescriptorPath);
 
             const config = INF.LIB.LODASH.get(declaringPackageDescriptor, ['config', 'bash.origin.lib'], null);
+
+            if (INF.LIB.verbose) console.log(`[bash.origin.lib][install.inf.js] config for '${declaringPackageDescriptor.name}':`, config);
 
             if (!config) {
                 // No 'bash.origin.lib' config present in descriptor.
@@ -45,10 +48,15 @@ exports.inf = async function (INF, ALIAS) {
         invoke: async function (pointer, value) {
 
             if (pointer === "run()") {
-
+                
                 const declaringPackageRoots = [];
 
-                const baseRoot = process.env.INIT_CWD || process.cwd();
+                if (INF.LIB.verbose) console.log("[bash.origin.lib][install.inf.js] process.env.INIT_CWD:", process.env.INIT_CWD);
+                if (INF.LIB.verbose) console.log("[bash.origin.lib][install.inf.js] INF.LIB.PATH.join(process.cwd(), '../..'):", INF.LIB.PATH.join(process.cwd(), '../..'));
+
+                const baseRoot = process.env.INIT_CWD || INF.LIB.PATH.join(process.cwd(), '../..');
+
+                if (INF.LIB.verbose) console.log("[bash.origin.lib][install.inf.js] baseRoot:", baseRoot);
 
                 declaringPackageRoots.push(baseRoot);
                 (await INF.LIB.GLOB.async("node_modules/*/package.json", {
@@ -56,6 +64,8 @@ exports.inf = async function (INF, ALIAS) {
                 })).forEach(function (path) {
                     declaringPackageRoots.push(INF.LIB.PATH.join(baseRoot, path, ".."));
                 });
+
+                if (INF.LIB.verbose) console.log("[bash.origin.lib][install.inf.js] declaringPackageRoots:", declaringPackageRoots);
 
                 await ensureInstalledForPaths(baseRoot, declaringPackageRoots, async function (opts) {
                     return INF.run(await value.toInstructions({
@@ -65,11 +75,15 @@ exports.inf = async function (INF, ALIAS) {
 
                 const installedDescriptorPath = INF.LIB.PATH.join(baseRoot, ".~_#_io.nodepack.inf_#_installed1.json");
 
+                if (INF.LIB.verbose) console.log("[bash.origin.lib][install.inf.js] installedDescriptorPath:", installedDescriptorPath);
+
                 if (!await INF.LIB.FS.existsAsync(installedDescriptorPath)) {
                     return true;
                 }
 
                 const installedDescriptor = await INF.LIB.FS.readJSONAsync(installedDescriptorPath);
+
+                if (INF.LIB.verbose) console.log("[bash.origin.lib][install.inf.js] installedDescriptor:", installedDescriptor);
 
                 const binPath = INF.LIB.PATH.join(baseRoot, "node_modules/.bin/bash.origin.lib");
 
@@ -117,6 +131,8 @@ exports.inf = async function (INF, ALIAS) {
                 });
                 BASH_ORIGIN_LIB_BASE_PATHS['.'] = BASH_ORIGIN_LIB_BASE_PATHS['0'];
 
+                if (INF.LIB.verbose) console.log("[bash.origin.lib][install.inf.js] BASH_ORIGIN_LIB_BASE_PATHS:", BASH_ORIGIN_LIB_BASE_PATHS);
+
                 binScript = binScript.replace(
                     /(#<BASH_ORIGIN_LIB_BASE_PATHS>)([\s\S]*?)(#<\/BASH_ORIGIN_LIB_BASE_PATHS>)/m,
 `$1
@@ -126,6 +142,8 @@ return `BASH_ORIGIN_LIB_BASE_PATHS[${stream}]=${BASH_ORIGIN_LIB_BASE_PATHS[strea
 }).join("\n")}
 $3`
                 )
+
+                if (INF.LIB.verbose) console.log("[bash.origin.lib][install.inf.js] binScript:", binScript);
 
                 await INF.LIB.FS.removeAsync(binPath);
                 await INF.LIB.FS.writeFileAsync(binPath, binScript, "utf8");
